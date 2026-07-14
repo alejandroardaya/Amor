@@ -2,7 +2,8 @@
 // JUEGO: "Te amo mi amor" - Plataformas de un solo botón
 // El personaje avanza SOLO hacia la derecha en todo momento.
 // El jugador únicamente puede saltar (espacio o botón táctil)
-// para esquivar los huecos/obstáculos y llegar hasta el corazón.
+// para esquivar los obstáculos y llegar hasta el corazón.
+// El piso es continuo (sin huecos), así que no hay caídas.
 // ==========================================================
 
 (function () {
@@ -22,7 +23,7 @@
   // -----------------------------
   const GRAVITY = 0.7;
   const JUMP_FORCE = -13;
-  const AUTO_SPEED = 1;       // velocidad de avance automático (scroll del mundo)
+  const AUTO_SPEED = 2;       // velocidad de avance automático (scroll del mundo)
   const GROUND_Y = H - 60;    // altura del piso base
 
   // -----------------------------
@@ -46,35 +47,23 @@
 
   // -----------------------------
   // Diseño del nivel
-  // Cada plataforma de piso es un tramo {x, w} en coordenadas del mundo.
-  // Los huecos entre tramos son los obstáculos que hay que saltar.
+  // El piso es UN SOLO tramo continuo (sin huecos) que cubre todo el
+  // recorrido, así el jugador nunca puede caerse.
   // -----------------------------
+  const heart = { x: 3150, y: GROUND_Y - 50, size: 40 }; // corazón (meta final)
+  const WORLD_LENGTH = heart.x + 300; // largo total del mundo (un poco después del corazón)
+
   const groundSegments = [
-    { x: 0,    w: 400 },
-    { x: 470,  w: 250 },
-    { x: 800,  w: 200 },
-    { x: 1080, w: 300 },
-    { x: 1460, w: 180 },
-    { x: 1720, w: 260 },
-    { x: 2060, w: 220 },
-    { x: 2360, w: 400 },
-    { x: 2840, w: 500 } // tramo final donde está el corazón
+    { x: 0, w: WORLD_LENGTH + 200 } // piso continuo de principio a fin
   ];
 
-  // Bloques elevados (obstáculos que también se pueden saltar por arriba,
-  // simplemente decorativos/obstáculo bajo, el jugador los esquiva saltando)
+  // Bloques elevados más pequeños (obstáculos que se esquivan saltando)
   const lowObstacles = [
-    { x: 650,  w: 20, h: 20 },
-    { x: 1200, w: 20, h: 20 },
-    { x: 1900, w: 20, h: 20 },
-    { x: 2500, w: 20, h: 20 }
+    { x: 650,  w: 14, h: 16 },
+    { x: 1200, w: 14, h: 16 },
+    { x: 1900, w: 14, h: 20 },
+    { x: 2500, w: 14, h: 16 }
   ];
-
-  // Corazón (meta final) en coordenadas del mundo
-  const heart = { x: 3150, y: GROUND_Y - 50, size: 40 };
-
-  // Largo total del mundo (un poco después del corazón)
-  const WORLD_LENGTH = heart.x + 300;
 
   // -----------------------------
   // Entradas del jugador
@@ -129,7 +118,7 @@
   }
 
   // -----------------------------
-  // Reiniciar al jugador si cae en un hueco
+  // Reiniciar al jugador (por seguridad, o si choca un obstáculo)
   // -----------------------------
   function resetPlayer() {
     worldX = 0;

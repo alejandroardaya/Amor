@@ -34,7 +34,7 @@
 
   // Jugador (su posición X en pantalla es fija, el mundo se mueve)
   const player = {
-    screenX: 120,
+    screenX: 60,
     y: GROUND_Y - 34,
     w: 30,
     h: 34,
@@ -50,19 +50,16 @@
   // El piso es UN SOLO tramo continuo (sin huecos) que cubre todo el
   // recorrido, así el jugador nunca puede caerse.
   // -----------------------------
-  const heart = { x: 3150, y: GROUND_Y - 50, size: 40 }; // corazón (meta final)
-  const WORLD_LENGTH = heart.x + 300; // largo total del mundo (un poco después del corazón)
+  const heart = { x: 900, y: GROUND_Y - 50, size: 40 }; // corazón (meta final)
+  const WORLD_LENGTH = heart.x + 200; // largo total del mundo (un poco después del corazón)
 
   const groundSegments = [
     { x: 0, w: WORLD_LENGTH + 200 } // piso continuo de principio a fin
   ];
 
-  // Bloques elevados más pequeños (obstáculos que se esquivan saltando)
+  // Un único obstáculo a esquivar saltando
   const lowObstacles = [
-    { x: 650,  w: 14, h: 16 },
-    { x: 1200, w: 14, h: 16 },
-    { x: 1900, w: 14, h: 20 },
-    { x: 2500, w: 14, h: 16 }
+    { x: 450, w: 14, h: 18 }
   ];
 
   // -----------------------------
@@ -254,7 +251,7 @@
   // Nubes de fondo con parallax leve
   function drawClouds() {
     ctx.fillStyle = 'rgba(255,255,255,0.85)';
-    const positions = [200, 600, 1000, 1400, 1800, 2200, 2600, 3000];
+    const positions = [100, 300, 500, 700, 900];
     positions.forEach((baseX, i) => {
       const parallaxX = baseX - cameraX * 0.4;
       const wrapped = ((parallaxX % (W + 200)) + (W + 200)) % (W + 200) - 100;

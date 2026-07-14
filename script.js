@@ -22,7 +22,7 @@
   // -----------------------------
   const GRAVITY = 0.7;
   const JUMP_FORCE = -13;
-  const AUTO_SPEED = 4;       // velocidad de avance automático (scroll del mundo)
+  const AUTO_SPEED = 1;       // velocidad de avance automático (scroll del mundo)
   const GROUND_Y = H - 60;    // altura del piso base
 
   // -----------------------------
@@ -64,10 +64,10 @@
   // Bloques elevados (obstáculos que también se pueden saltar por arriba,
   // simplemente decorativos/obstáculo bajo, el jugador los esquiva saltando)
   const lowObstacles = [
-    { x: 650,  w: 20, h: 30 },
-    { x: 1200, w: 20, h: 30 },
-    { x: 1900, w: 20, h: 40 },
-    { x: 2500, w: 20, h: 30 }
+    { x: 650,  w: 20, h: 20 },
+    { x: 1200, w: 20, h: 20 },
+    { x: 1900, w: 20, h: 20 },
+    { x: 2500, w: 20, h: 20 }
   ];
 
   // Corazón (meta final) en coordenadas del mundo
